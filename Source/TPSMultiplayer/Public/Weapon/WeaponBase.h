@@ -21,6 +21,9 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="Shoot")
+	void Shoot();
+	
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Weapon", meta=(AllowPrivateAccess))
 	TObjectPtr<USkeletalMeshComponent> WeaponMesh;

@@ -27,3 +27,6 @@ void AWeaponBase::Tick(float DeltaTime)
 
 }
 
+void AWeaponBase::Shoot_Implementation()
+{
+}
