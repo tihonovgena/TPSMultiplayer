@@ -8,6 +8,8 @@
 #include "TPSMultiplayerCharacter.generated.h"
 
 
+class UHealthComponent;
+
 UCLASS(config=Game)
 class ATPSMultiplayerCharacter : public ACharacter
 {
@@ -40,6 +42,11 @@ class ATPSMultiplayerCharacter : public ACharacter
 public:
 	ATPSMultiplayerCharacter();
 	
+	/** Returns CameraBoom subobject **/
+	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+	/** Returns FollowCamera subobject **/
+	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+	
 
 protected:
 
@@ -48,19 +55,18 @@ protected:
 
 	/** Called for looking input */
 	void Look(const FInputActionValue& Value);
-			
-
-protected:
+	
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
 	// To add mapping context
 	virtual void BeginPlay();
 
-public:
-	/** Returns CameraBoom subobject **/
-	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
-	/** Returns FollowCamera subobject **/
-	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+private:
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Health", meta=(AllowPrivateAccess = "true"))
+	TObjectPtr<UHealthComponent> HealthComponent;
+
+
 };
 
