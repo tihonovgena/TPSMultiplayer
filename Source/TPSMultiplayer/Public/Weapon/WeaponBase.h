@@ -23,10 +23,41 @@ protected:
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="Shoot")
 	void Shoot();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category="Shoot")
+	bool Reload();
+
+	UFUNCTION(BlueprintCallable, Category="Ammo")
+	bool LoadAmmo();
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category="Ammo")
+	bool HasAmmo(){return AmmoAmount > 0;}
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category="Ammo")
+	bool HasClips(){return ClipsAmount > 0;}
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category="Ammo")
+	int GetAmmo(){return AmmoAmount;}
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category="Ammo")
+	int GetDefaultAmmo(){return DefaultAmmoAmount;}
+
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category="Ammo")
+	int GetClips(){return ClipsAmount;}
 	
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Weapon", meta=(AllowPrivateAccess))
 	TObjectPtr<USkeletalMeshComponent> WeaponMesh;
-	
+
+	UPROPERTY(EditDefaultsOnly, Category="Ammo", meta=(AllowPrivateAccess, ClampMin = "0"))
+	int DefaultAmmoAmount;
+
+	UPROPERTY(Replicated, EditDefaultsOnly, Category="Ammo", meta=(AllowPrivateAccess, ClampMin = "0"))
+	int AmmoAmount;
+
+	UPROPERTY(Replicated, EditDefaultsOnly, Category="Ammo", meta=(AllowPrivateAccess, ClampMin = "0"))
+	int ClipsAmount;
+
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 };
