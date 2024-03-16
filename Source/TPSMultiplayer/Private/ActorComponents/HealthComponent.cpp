@@ -29,21 +29,19 @@ void UHealthComponent::OnTakeAnyDamage(AActor* DamagedActor, float Damage, const
 {
 	Health = FMath::Clamp(Health - Damage, 0.f , DefaultHealth);
 	UE_LOG(HealthComponent, Display, TEXT("%s take %f damage"), *ComponentOwner->GetName(), Damage);
-}
-
-void UHealthComponent::OnRep_Health()
-{
-	
 	OnHealthChanged.Broadcast(Health);
-
 	UE_LOG(HealthComponent, Display, TEXT("New health: %f"), Health);
 
 	if (Health == 0)
 	{
-		OnDeath.Broadcast();
+		DoDeath();
 	}
-	
-	
+}
+
+void UHealthComponent::DoDeath_Implementation()
+{
+	OnDeath.Broadcast();
+	UE_LOG(HealthComponent, Display, TEXT("Character dead"));
 }
 
 void UHealthComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const

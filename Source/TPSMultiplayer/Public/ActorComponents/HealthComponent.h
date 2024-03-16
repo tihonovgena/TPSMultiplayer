@@ -38,15 +38,15 @@ protected:
 private:
 	UFUNCTION()
 	void OnTakeAnyDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser);
+
+	UFUNCTION(NetMulticast, Reliable)
+	void DoDeath();
 	
 	UPROPERTY(EditDefaultsOnly, Category="Health", meta=(ClampMin = "0"))
 	float DefaultHealth = 100.f;
 
 	UPROPERTY(Replicated)
 	float Health;
-
-	UFUNCTION()
-	void OnRep_Health();
 	
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
